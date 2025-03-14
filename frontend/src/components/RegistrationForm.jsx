@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TextInput from './TextInput';
@@ -6,7 +5,7 @@ import Dropdown from './Dropdown';
 import RadioButton from './RadioButton';
 import DateInput from './DateInput';
 import '../App.css';
-const Base_URL = "https://registration-iota-nine.vercel.app"
+const Base_URL = "https://registration-five-murex.vercel.app"
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -34,7 +33,7 @@ const RegistrationForm = () => {
 
   const fetchCountries = async () => {
     try {
-      const response = await axios.get('https://registration-iota-nine.vercel.app/api/countries');
+      const response = await axios.get(`${Base_URL}/api/countries`);
       setCountries(response.data);
     } catch (error) {
       console.error('Error fetching countries:', error);
@@ -43,7 +42,7 @@ const RegistrationForm = () => {
 
   const fetchStates = async (country) => {
     try {
-      const response = await axios.get(`https://registration-iota-nine.vercel.app/api/states?country=${country}`);
+      const response = await axios.get(`${Base_URL}/api/states?country=${country}`);
       setStates(response.data);
     } catch (error) {
       console.error('Error fetching states:', error);
@@ -52,7 +51,7 @@ const RegistrationForm = () => {
 
   const fetchCities = async (state) => {
     try {
-      const response = await axios.get(`https://registration-iota-nine.vercel.app/api/cities?state=${state}`);
+      const response = await axios.get(`${Base_URL}/api/cities?state=${state}`);
       setCities(response.data);
     } catch (error) {
       console.error('Error fetching cities:', error);
@@ -61,7 +60,7 @@ const RegistrationForm = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('https://registration-iota-nine.vercel.app/api/users');
+      const response = await axios.get(`${Base_URL}/api/users`);
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -84,10 +83,12 @@ const RegistrationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length === 0) {
       try {
-        await axios.post('https://registration-iota-nine.vercel.app/api/register', formData);
+        console.log("formData", formData)
+        await axios.post(`${Base_URL}/api/register`, formData);
         alert('Registration successful!');
         fetchUsers(); // Refresh the user list after registration
       } catch (error) {
@@ -107,9 +108,28 @@ const RegistrationForm = () => {
     if (!formData.state) errors.state = 'State is required';
     if (!formData.city) errors.city = 'City is required';
     if (!formData.gender) errors.gender = 'Gender is required';
-    if (!formData.dob) errors.dob = 'Date of birth is required';
-    return errors;
-  };
+    if (!formData.dob) {
+        errors.dob = 'Date of birth is required';
+      } else {
+        // Calculate age from DOB
+        const today = new Date();
+        const birthDate = new Date(formData.dob);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+    
+        // Adjust age if birthday hasn't occurred yet this year
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+    
+        if (age < 14) {
+          alert("Age must be 14 or older.");
+          errors.age = "Age must be 14 or older";
+        }
+      }
+    
+      return errors;
+    };
 
   return (
     <div className="app-container">
