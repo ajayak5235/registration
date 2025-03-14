@@ -1,169 +1,4 @@
-// import { useState, useEffect } from "react";
-// import axios from "axios";
 
-// const URL = "http://localhost:5000";
-
-// const RegistrationForm = () => {
-//   const [formData, setFormData] = useState({
-//     firstName: "",
-//     lastName: "",
-//     email: "",
-//     country: "",
-//     state: "",
-//     city: "",
-//     gender: "",
-//     dob: "",
-//     age: "",
-//   });
-
-//   const [countries, setCountries] = useState([]);
-//   const [states, setStates] = useState([]);
-//   const [cities, setCities] = useState([]);
-//   const [errors, setErrors] = useState({});
-
-//   // Fetch countries on load
-//   useEffect(() => {
-//     axios
-//       .get(`${URL}/api/locations/countries`)
-//       .then((res) => setCountries(res.data || []))
-//       .catch((error) => console.error("Error fetching countries:", error));
-//   }, []);
-
-//   // Fetch states when country changes
-//   useEffect(() => {
-//     if (formData.country) {
-//       axios
-//         .get(`${URL}/api/locations/states/${formData.country}`)
-//         .then((res) => setStates(res.data || []))
-//         .catch((error) => console.error("Error fetching states:", error));
-
-//       setFormData((prev) => ({ ...prev, state: "", city: "" }));
-//       setCities([]);
-//     }
-//   }, [formData.country]);
-
-//   // Fetch cities when state changes
-//   useEffect(() => {
-//     if (formData.state) {
-//       axios
-//         .get(`${URL}/api/locations/cities/${formData.state}`)
-//         .then((res) => setCities(res.data || []))
-//         .catch((error) => console.error("Error fetching cities:", error));
-
-//       setFormData((prev) => ({ ...prev, city: "" }));
-//     }
-//   }, [formData.state]);
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData((prev) => ({ ...prev, [name]: value }));
-
-//     if (name === "country") {
-//       setFormData((prev) => ({ ...prev, state: "", city: "" }));
-//       setStates([]);
-//       setCities([]);
-//     }
-
-//     if (name === "state") {
-//       setFormData((prev) => ({ ...prev, city: "" }));
-//       setCities([]);
-//     }
-
-//     if (name === "dob") calculateAge(value);
-//   };
-
-//   const calculateAge = (dob) => {
-//     const birthDate = new Date(dob);
-//     const today = new Date();
-//     let age = today.getFullYear() - birthDate.getFullYear();
-//     const monthDiff = today.getMonth() - birthDate.getMonth();
-//     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-//       age--;
-//     }
-//     setFormData((prev) => ({ ...prev, age: age.toString() }));
-//   };
-
-//   const validateForm = () => {
-//     let newErrors = {};
-//     if (!/^[A-Za-z]+$/.test(formData.firstName)) newErrors.firstName = "Only alphabets allowed";
-//     if (!/^[A-Za-z]+$/.test(formData.lastName)) newErrors.lastName = "Only alphabets allowed";
-//     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = "Invalid email format";
-//     if (!formData.country) newErrors.country = "Select a country";
-//     if (!formData.state) newErrors.state = "Select a state";
-//     if (!formData.city) newErrors.city = "Select a city";
-//     if (!formData.gender) newErrors.gender = "Select gender";
-//     if (!formData.dob || formData.age < 14 || formData.age > 99) newErrors.dob = "Age must be 14-99 years";
-//     setErrors(newErrors);
-//     return Object.keys(newErrors).length === 0;
-//   };
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     if (validateForm()) {
-//       console.log("Form Data:", formData);
-//       axios
-//         .post(`${URL}/api/users/register`, formData)
-//         .then(() => alert("Registered Successfully"))
-//         .catch((error) => console.error("Error registering user:", error));
-//     }
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" />
-//       {errors.firstName && <p>{errors.firstName}</p>}
-
-//       <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" />
-//       {errors.lastName && <p>{errors.lastName}</p>}
-
-//       <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
-//       {errors.email && <p>{errors.email}</p>}
-
-//       <select name="country" value={formData.country} onChange={handleChange}>
-//         <option value="">Select Country</option>
-//         {countries.map((c) => (
-//           <option key={c._id} value={c._id}>{c.name}</option>
-//         ))}
-//       </select>
-//       {errors.country && <p>{errors.country}</p>}
-
-//       <select name="state" value={formData.state} onChange={handleChange} disabled={!formData.country}>
-//         <option value="">Select State</option>
-//         {states.map((s) => (
-//           <option key={s._id} value={s._id}>{s.name}</option>
-//         ))}
-//       </select>
-//       {errors.state && <p>{errors.state}</p>}
-
-//       <select name="city" value={formData.city} onChange={handleChange} disabled={!formData.state}>
-//         <option value="">Select City</option>
-//         {cities.map((c) => (
-//           <option key={c._id} value={c._id}>{c.name}</option>
-//         ))}
-//       </select>
-//       {errors.city && <p>{errors.city}</p>}
-
-//       <select name="gender" value={formData.gender} onChange={handleChange}>
-//         <option value="">Select Gender</option>
-//         <option value="Male">Male</option>
-//         <option value="Female">Female</option>
-//       </select>
-//       {errors.gender && <p>{errors.gender}</p>}
-
-//       <input type="date" name="dob" value={formData.dob} onChange={handleChange} />
-//       {errors.dob && <p>{errors.dob}</p>}
-
-//       <button type="submit">Register</button>
-//     </form>
-//   );
-// };
-
-// export default RegistrationForm;
-
-
-
-
-// frontend/src/App.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TextInput from './TextInput';
@@ -171,6 +6,7 @@ import Dropdown from './Dropdown';
 import RadioButton from './RadioButton';
 import DateInput from './DateInput';
 import '../App.css';
+const Base_URL = "https://registration-iota-nine.vercel.app"
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -198,7 +34,7 @@ const RegistrationForm = () => {
 
   const fetchCountries = async () => {
     try {
-      const response = await axios.get('https://registration-six-chi.vercel.app/api/countries');
+      const response = await axios.get('https://registration-iota-nine.vercel.app/api/countries');
       setCountries(response.data);
     } catch (error) {
       console.error('Error fetching countries:', error);
@@ -207,7 +43,7 @@ const RegistrationForm = () => {
 
   const fetchStates = async (country) => {
     try {
-      const response = await axios.get(`https://registration-six-chi.vercel.app/api/states?country=${country}`);
+      const response = await axios.get(`https://registration-iota-nine.vercel.app/api/states?country=${country}`);
       setStates(response.data);
     } catch (error) {
       console.error('Error fetching states:', error);
@@ -216,7 +52,7 @@ const RegistrationForm = () => {
 
   const fetchCities = async (state) => {
     try {
-      const response = await axios.get(`https://registration-six-chi.vercel.app/api/cities?state=${state}`);
+      const response = await axios.get(`https://registration-iota-nine.vercel.app/api/cities?state=${state}`);
       setCities(response.data);
     } catch (error) {
       console.error('Error fetching cities:', error);
@@ -225,7 +61,7 @@ const RegistrationForm = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('https://registration-six-chi.vercel.app/api/users');
+      const response = await axios.get('https://registration-iota-nine.vercel.app/api/users');
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -251,7 +87,7 @@ const RegistrationForm = () => {
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length === 0) {
       try {
-        await axios.post('https://registration-six-chi.vercel.app/api/register', formData);
+        await axios.post('https://registration-iota-nine.vercel.app/api/register', formData);
         alert('Registration successful!');
         fetchUsers(); // Refresh the user list after registration
       } catch (error) {
