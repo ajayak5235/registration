@@ -1,17 +1,17 @@
+
 const express = require('express');
 require('dotenv').config();
-// const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const connectDB = require('./utily/database') 
 const userRoutes = require('./routers/userRoute');
 
 const app = express();
-app.use(express.json());
+app.use(bodyParser.json());
 app.use(cors());
 
-// app.use('/', (req,res) =>{
-//     res.send("Server is Running")
-// })
+
+
 // Use user routes
 app.use('/api', userRoutes);
 
