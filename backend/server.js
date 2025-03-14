@@ -9,9 +9,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use('/', (req,res) =>{
-    res.send("Server is Running")
-})
+// app.use('/', (req,res) =>{
+//     res.send("Server is Running")
+// })
 // Use user routes
 app.use('/api', userRoutes);
 
