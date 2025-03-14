@@ -1,0 +1,84 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: .5rem;
+  text-align: center;
+}
+
+/* frontend/src/styles.css */
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #b2dff5;
+}
+
+.form-container {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 3px solid #0b0303;
+  border-radius: 5px;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px; /* Space between inputs */
+  margin-bottom: 15px;
+}
+
+.form-group {
+  flex: 1; /* Each input takes equal space */
+  min-width: 200px; /* Minimum width for each input */
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 7px;
+  border: 2px solid #050404;
+  border-radius: 4px;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+}
+
+.user-list {
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 10px;
+  border: 1px solid #a4a0a0;
+  text-align: left;
+}
+
+th {
+  background-color: #ef9999;
+}
+
+/* Radio Button Styles */
+.radio-group {
+  display: flex;
+  margin-left: 50px;
+  gap: 50px; /* Space between radio options */
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Space between radio button and label */
+}
