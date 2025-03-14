@@ -73,7 +73,7 @@ th {
 /* Radio Button Styles */
 .radio-group {
   display: flex;
-  margin-left: 50px;
+  margin-left: 30px;
   gap: 50px; /* Space between radio options */
 }
 
