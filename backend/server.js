@@ -13,12 +13,14 @@ const app = express();
 //   methods: 'GET,POST,PUT,DELETE', // Allowed HTTP methods
 //   credentials: true, // Allow cookies and credentials
 // };
-const corsOptions = {
-  origin: '*', // Allow requests from any origin
-};
-app.use(cors(corsOptions)); // Use CORS with the specified options
-app.use(bodyParser.json());
+// const corsOptions = {
+//   origin: '*', // Allow requests from any origin
+// };
+// app.use(cors(corsOptions)); // Use CORS with the specified options
+// app.use(bodyParser.json());
 
+app.use(express.json());
+app.use(cors());
 // Use user routes
 app.use('/api', userRoutes);
 
